@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #edf6fa;
+      background-color: #f2f5f9;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -15,170 +15,194 @@
       margin: 0;
     }
 
-    #phone-frame {
-      padding: 20px 10px;
-      border-radius: 30px;
-      width: 360px;
-      height: 360px;
-      position: relative;
-    }
-
-    #screen {
-      background: #ffffff;
-      padding: 20px;
+    #quiz-container {
+      background-color: #ffffff;
       border-radius: 20px;
-      width: 100%;
-      height: calc(100% - 60px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      height: 570px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
       text-align: center;
       position: relative;
     }
 
-    #intro-screen, #quiz-screen {
+    #intro-screen, #quiz-screen, #result-screen {
+      flex: 1;
       display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    #intro-screen.active, #quiz-screen.active {
-      display: block;
+    #intro-screen.active, #quiz-screen.active, #result-screen.active {
+      display: flex;
     }
 
-    #intro-message {
-      font-size: 18px;
+    #title {
+      font-size: 20px;
       font-weight: bold;
       color: #333;
       margin-bottom: 20px;
-      white-space: pre-line; /* 줄바꿈 지원 */
     }
 
-    #start-button {
+    #start-button, #study-button {
       width: 60%;
-      padding: 15px;
-      font-size: 18px;
-      font-weight: bold; /* 버튼 텍스트를 볼드로 수정 */
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      background: linear-gradient(145deg, #d6e6f0, #ffffff);
-      box-shadow: 3px 3px 6px #a8b8c3, -3px -3px 6px #ffffff;
-      color: #007bff;
+      background-color: #4d90fe;
+      color: white;
       transition: transform 0.2s;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
     }
 
-    #start-button:active {
-      transform: translate(-50%, -50%) translateY(2px);
-      box-shadow: inset 3px 3px 6px #a8b8c3, inset -3px -3px 6px #ffffff;
+    #start-button:active, #study-button:active {
+      transform: scale(0.98);
+    }
+
+    #question-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
     }
 
     #question-number {
+      font-size: 18px;
       color: #007bff;
       font-weight: bold;
-      font-size: 15px;
       margin-bottom: 10px;
     }
 
     #question {
-      font-weight: bold;
       font-size: 18px;
-      margin-bottom: 20px;
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    #answer-explanation {
+      font-size: 14px;
+      color: #555;
+      display: none;
+      margin: 20px 0;
     }
 
     #choices {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 40px;
     }
 
     #choices button {
-      width: 45%;
-      padding: 15px;
-      font-size: 18px;
+      width: 100px;
+      height: 100px;
+      font-size: 40px;
+      font-weight: bold;
       border: none;
-      border-radius: 8px;
+      border-radius: 50%;
       cursor: pointer;
-      background: linear-gradient(145deg, #d6e6f0, #ffffff);
-      box-shadow: 3px 3px 6px #a8b8c3, -3px -3px 6px #ffffff;
-      color: #333;
-      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.2s, background-color 0.2s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    #choices button:active {
-      transform: translateY(2px);
-      box-shadow: inset 3px 3px 6px #a8b8c3, inset -3px -3px 6px #ffffff;
+    #choices button span {
+      font-size: 14px;
+      margin-top: 5px;
     }
 
-    #result {
-      margin-top: 40px; /* 결과 텍스트가 버튼 하단에 배치되도록 설정 */
+    #choices button.correct {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    #choices button.incorrect {
+      background-color: #f44336;
+      color: white;
+    }
+
+    #choices button:hover {
+      transform: scale(1.1);
+    }
+
+    #final-message {
       font-size: 18px;
       font-weight: bold;
       color: #007bff;
-      display: none;
+      margin-bottom: 20px;
     }
 
-    #final-score {
-      display: none;
-      margin-top: 14px;
-    }
-
-    #redirect-button {
-      display: none;
-      background-color: #004c9e;
-      color: white;
-      font-size: 14px;
-      padding: 10px 20px;
-      cursor: pointer;
-      text-decoration: none;
-      border-radius: 4px;
-      margin-top: 10px;
-    }
-
-    #credit {
+    #footer {
       position: absolute;
       bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: gray;
       font-size: 10px;
+      color: gray;
+      text-align: center;
+      width: 100%;
     }
   </style>
 </head>
 <body>
 
-<div id="phone-frame">
-  <div id="screen">
-    <div id="intro-screen" class="active">
-      <div id="intro-message">재미로 보는<br>2024년 경제/시사 레벨 테스트</div>
-      <button id="start-button" onclick="startQuiz()">START</button>
-    </div>
+<div id="quiz-container">
+  <!-- Intro Screen -->
+  <div id="intro-screen" class="active">
+    <div id="title">재미로 보는 2024년 경제 시사 문제 풀기</div>
+    <button id="start-button" onclick="startQuiz()">START</button>
+  </div>
 
-    <div id="quiz-screen">
-      <div id="question-number">문제 1</div>
+  <!-- Quiz Screen -->
+  <div id="quiz-screen">
+    <div id="question-section">
+      <div id="question-number">Q1</div>
       <div id="question">퀴즈 질문이 여기에 표시됩니다.</div>
-      <div id="choices">
-        <button class="correct" onclick="selectAnswer(true)">O</button>
-        <button class="incorrect" onclick="selectAnswer(false)">X</button>
-      </div>
-      <div id="result"></div>
-      <div id="final-score"></div>
-      <a id="redirect-button" href="https://kiss.kstudy.com/Subject?code1=02&code2=05" target="_blank">경제공부하러가기!</a>
-      <div id="credit">한국학술정보</div>
+      <div id="answer-explanation"></div>
+    </div>
+    <div id="choices">
+      <button class="correct" onclick="selectAnswer(true)">O<span>그렇다</span></button>
+      <button class="incorrect" onclick="selectAnswer(false)">X<span>아니다</span></button>
     </div>
   </div>
+
+  <!-- Result Screen -->
+  <div id="result-screen">
+    <div id="final-message"></div>
+    <button id="study-button" 
+            onclick="window.location.href='https://kiss.kstudy.com/Subject?code1=02&code2=03'">
+      경제 공부하러 가기
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer">한국학술정보</div>
 </div>
 
 <script>
   const questions = [
-    { question: "2025년부터 대한민국에서 사상 처음으로<br>최저시급 10,030원을 받는다", answer: true },
-    { question: "금리 0.25%P 인하하는 것을<br>'<a href='https://kiss.kstudy.com/Detail/Ar?key=3770164#' target='_blank'>빅컷</a>'이라고 한다", answer: false },
-    { question: "엔비디아에서 새로 출시하는 AI칩의 이름은 '블랙홀'이다", answer: false },
-    { question: "비트코인 <a href='https://kiss.kstudy.com/Detail/Ar?key=4072125' target='_blank'>ETF</a>가 승인된 적이 있다?", answer: true },
-    { question: "2024년 트렌드 코리아에 소개된 키워드<br>'<a href='https://kiss.kstudy.com/Detail/Ar?key=4067971' target='_blank'>디토소비</a>'는 유명인의 취향과 유행을 그대로 따라하는 소비를 뜻한다", answer: true },
-    { question: "2024년 fed는 연속으로 동결했다", answer: false },
-    { question: "일정 기간 동안 물가가 연속적으로 상승하는 것을 '<a href='https://kiss.kstudy.com/Search/Result?field=0&query=%EC%9D%B8%ED%94%8C%EB%A0%88%EC%9D%B4%EC%85%98&isDetail=N' target='_blank'>인플레이션</a>'이라고 한다", answer: true },
-    { question: "전 세계적으로 가장 많이 사용된<br>SNS 플랫폼은 '<a href='https://kiss.kstudy.com/Search/Result?field=0&query=%ED%8B%B1%ED%86%A1&isDetail=N#' target='_blank'>인스타그램</a>'이다", answer: false },
-    { question: "Fed 기준금리는 한 해에 여러 번 조정될 수 있다?", answer: true },
-    { question: "'<a href='https://kiss.kstudy.com/Search/Result?field=0&query=%EC%83%9D%EC%95%A0%EC%A3%BC%EA%B8%B0%EA%B0%80%EC%84%A4&isDetail=N' target='_blank'>생애주기가설</a>'은 개인이 평생 동안 일정한<br>수준의 소비를 유지하기 위해 현재 소비에만 집중하는 것을 말한다", answer: false }
+    { question: "2025년부터 대한민국에서 사상 처음으로<br>최저시급 10,030원을 받는다", answer: true, explanation: "2025년부터 최저시급이 10,030원으로 올라,<br>처음으로 1만원 대 시급이 적용된다." },
+    { question: "금리 0.25%P 인하하는 것을<br>'빅컷'이라고 한다", answer: false, explanation: "금리 0.25%P 인하는 '베이비컷',<br>금리 0.5%P 인하는 '빅컷'이라고 한다." },
+    { question: "엔비디아에서 새로 출시하는 AI칩의 이름은 '블랙홀'이다", answer: false, explanation: "엔비디아 AI칩의 이름은 '블랙웰(Blackwell)'이다." },
+    { question: "비트코인 ETF가 승인된 적이 있다?", answer: true, explanation: "미국 증권거래위원회가 2024년 1월 10일에<br>비트코인 ETF의 거래 상장과 거래를 승인하였다." },
+    { question: "2024년 트렌드 코리아에 소개된 키워드<br>'디토소비'는 유명인의 취향과 유행을 그대로 따라하는 소비를 뜻한다", answer: true, explanation: "디토(Ditto)는 '나도'라는 뜻으로<br>다른 사람을 따라 구매하는 소비 형태를 말한다." },
+    { question: "2024년 fed는 연속으로 동결했다", answer: false, explanation: "2024년 8월까지 연속 동결하다가<br>9월에 0.5%, 11월에 4.75%로 감소 중이다." },
+    { question: "일정 기간 동안 물가가 연속적으로 상승하는 것을 '인플레이션'이라고 한다", answer: true, explanation: "'인플레이션'은 물가가 상승해<br>화폐가치가 하락하는 현상을 말한다." },
+    { question: "가격거품이란 어떤 제품의 가격이 실제 가치보다 지나치게 오르는 현상을 말한다", answer: true, explanation: "'가격거품'은 어떤 제품의 가격이<br>실제 가치보다 지나치게 오르는 현상이다." },
+    { question: "'블루벨트'는 개발제한구역으로 도시 주변의 녹지를 보존하기 위해 지정한 구역을 말한다", answer: false, explanation: "'그린벨트'는 개발제한구역으로<br>도시 주변의 녹지를 보존하기 위해 지정한 구역을 말한다." },
+    { question: "'생애주기가설'은 개인이 평생 동안 일정한<br>수준의 소비를 유지하기 위해 현재 소비에만 집중하는 것을 말한다", answer: false, explanation: "'생애주기가설'은 평생 동안 벌어들이는<br>소득을 고려해 소비를 조정한다는 이론이다." }
   ];
 
   let currentQuestionIndex = 0;
@@ -186,58 +210,59 @@
 
   const introScreen = document.getElementById('intro-screen');
   const quizScreen = document.getElementById('quiz-screen');
+  const resultScreen = document.getElementById('result-screen');
   const questionNumberElement = document.getElementById('question-number');
   const questionElement = document.getElementById('question');
-  const resultElement = document.getElementById('result');
-  const finalScoreElement = document.getElementById('final-score');
-  const redirectButton = document.getElementById('redirect-button');
+  const explanationElement = document.getElementById('answer-explanation');
+  const finalMessageElement = document.getElementById('final-message');
 
   function startQuiz() {
-    introScreen.classList.remove('active');
-    quizScreen.classList.add('active');
+    introScreen.style.display = 'none';
+    quizScreen.style.display = 'flex';
     loadQuestion();
   }
 
   function loadQuestion() {
     const currentQuestion = questions[currentQuestionIndex];
-    questionNumberElement.textContent = `문제 ${currentQuestionIndex + 1}`;
+    questionNumberElement.textContent = `Q${currentQuestionIndex + 1}`;
     questionElement.innerHTML = currentQuestion.question;
+    explanationElement.style.display = 'none';
   }
 
   function selectAnswer(selectedAnswer) {
     const currentQuestion = questions[currentQuestionIndex];
-    resultElement.textContent = selectedAnswer === currentQuestion.answer ? "정답!" : "오답!";
-    resultElement.style.display = 'block';
+    const resultText = selectedAnswer === currentQuestion.answer
+      ? `<span style="color: green; font-size: 20px; font-weight: bold;">정답!</span><br>${currentQuestion.explanation}`
+      : `<span style="color: red; font-size: 20px; font-weight: bold;">오답!</span><br>${currentQuestion.explanation}`;
+
+    explanationElement.innerHTML = resultText;
+    explanationElement.style.display = 'block';
 
     if (selectedAnswer === currentQuestion.answer) {
       score++;
     }
 
-    setTimeout(() => {
-      resultElement.style.display = 'none';
-      currentQuestionIndex++;
-      if (currentQuestionIndex < questions.length) {
+    if (currentQuestionIndex < questions.length - 1) {
+      setTimeout(() => {
+        currentQuestionIndex++;
         loadQuestion();
-      } else {
-        showFinalScore();
-      }
-    }, 1000); // 1초 후 다음 문제로 이동
+      }, 2000);
+    } else {
+      setTimeout(showFinalMessage, 2000);
+    }
   }
 
-  function showFinalScore() {
-    questionNumberElement.style.display = 'none';
-    questionElement.style.display = 'none';
-    document.getElementById('choices').style.display = 'none';
+  function showFinalMessage() {
+    quizScreen.style.display = 'none';
+    resultScreen.style.display = 'flex';
 
     let resultMessage = '';
     if (score === 10) resultMessage = '경제시사의 신';
     else if (score >= 7) resultMessage = '경제시사의 고수';
     else if (score >= 3) resultMessage = '경제시사의 노력가';
-    else resultMessage = '경제시사의 입문자';
+    else resultMessage = '경제시사의 어린이';
 
-    finalScoreElement.textContent = `결과: ${score}/10 (${resultMessage})`;
-    finalScoreElement.style.display = 'block';
-    redirectButton.style.display = 'block';
+    finalMessageElement.textContent = `${score}/10 - ${resultMessage}`;
   }
 </script>
 
